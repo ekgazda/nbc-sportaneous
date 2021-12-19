@@ -20,7 +20,7 @@ const Filter = ({ setEvents, categoryIsChecked, setCategoryIsChecked }) => {
           {
             backgroundColor: pressed
               ? 'rgba(50, 59, 118, 0.5)'
-              : 'rgba(50, 59, 118, 1)',
+              : '#323B76',
           },
           styles.filterButton,
         ]}
@@ -54,7 +54,7 @@ const Filter = ({ setEvents, categoryIsChecked, setCategoryIsChecked }) => {
               {
                 backgroundColor: pressed
                   ? 'rgba(108, 93, 171, 0.5)'
-                  : 'rgba(108, 93, 171, 1)',
+                  : '#6C5DAB',
               },
               styles.lowerButtonClear,
             ]}
@@ -69,7 +69,7 @@ const Filter = ({ setEvents, categoryIsChecked, setCategoryIsChecked }) => {
               {
                 backgroundColor: pressed
                   ? 'rgba(50, 59, 118, 0.5)'
-                  : 'rgba(50, 59, 118, 1)',
+                  : '#5763b8',
               },
               styles.lowerButtonApply,
             ]}

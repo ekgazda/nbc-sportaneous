@@ -13,8 +13,6 @@ export const styles = StyleSheet.create({
     paddingBottom: 10,
   },
   filterButton: {
-    borderWidth: 1,
-    borderColor: '#323B76',
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     padding: 8,
@@ -27,8 +25,6 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   lowerButtonClear: {
-    borderWidth: 0.5,
-    borderColor: '#323B76',
     borderBottomLeftRadius: 10,
     padding: 8,
     marginRight: 5,
@@ -37,8 +33,6 @@ export const styles = StyleSheet.create({
     width: windowWidth / 2.25,
   },
   lowerButtonApply: {
-    borderWidth: 0.5,
-    borderColor: '#323B76',
     borderBottomRightRadius: 10,
     padding: 8,
     marginLeft: 5,
@@ -47,10 +41,8 @@ export const styles = StyleSheet.create({
     width: windowWidth / 2.25,
   },
   refreshButton: {
-    borderWidth: 1,
-    borderColor: '#323B76',
-    // borderBottomLeftRadius: 10,
-    // borderBottomRightRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     padding: 8,
     // marginBottom: 8,
     alignSelf: 'center',
@@ -78,7 +70,7 @@ export const styles = StyleSheet.create({
     margin: 3,
   },
   checkBoxText: {
-    fontSize: 14,
+    fontSize: 12.5,
     fontWeight: 'bold',
     textTransform: 'capitalize',
   },
