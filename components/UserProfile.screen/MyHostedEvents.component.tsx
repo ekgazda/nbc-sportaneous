@@ -1,67 +1,70 @@
-import {doc, onSnapshot} from "firebase/firestore";
-import React from "react";
-import {useContext} from "react";
-import {useEffect, useState} from "react";
-import {Text, Pressable, View, TouchableOpacity, Alert} from "react-native";
-import Collapsible from "react-native-collapsible";
-import {ScrollView} from "react-native-gesture-handler";
-import {UserContext} from "../../contexts/UserContext";
-import {db} from "../../utils/firestoreConfig";
-import {selectEventById} from "../../utils/utils";
-import {truncate} from "../Events.screen/utils/EventListUtils";
-import {styles} from "./ProfileEvents.style";
-import {confirmDelete} from "./ProfileUtils";
+import React, { useContext, useState, useEffect } from 'react'
+import {
+  Text,
+  Pressable,
+  View,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native'
+import { doc, onSnapshot } from 'firebase/firestore'
+import Collapsible from 'react-native-collapsible'
+import { UserContext } from '../../contexts/UserContext'
+import { db } from '../../db/firestoreConfig'
+import { selectEventById } from '../../db/api'
+import { truncate } from '../Events.screen/utils/EventListUtils'
+import { confirmDelete } from './ProfileUtils'
+import { styles } from './ProfileEvents.style'
 
-export const MyHostedEvents = ({user_id, navigation}) => {
-  const {currentUser} = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(true);
-  const [hostedIsCollapsed, setHostedIsCollapsed] = useState(false);
-  const [myHostedEventIds, setMyHostedEventIds] = useState([]);
+export const MyHostedEvents = ({ user_id, navigation }) => {
+  const { currentUser } = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(true)
+  const [hostedIsCollapsed, setHostedIsCollapsed] = useState(false)
+  const [myHostedEventIds, setMyHostedEventIds] = useState([])
   const [myHostedEvents, setMyHostedEvents] = useState([
     {
-      title: "dummy",
-      host_id: "dummy",
-      location: "dummy",
-      date: "dummy",
-      category: "dummy",
-      time: "dummy",
-      description: "dummy",
+      title: '',
+      host_id: '',
+      location: '',
+      date: '',
+      category: '',
+      time: '',
+      description: '',
     },
-  ]);
+  ])
 
   useEffect(() => {
     const eventPromises: any = myHostedEventIds.map((eventId) => {
-      return selectEventById(eventId);
-    });
+      return selectEventById(eventId)
+    })
     Promise.all(eventPromises).then((res: any) => {
       res.forEach((event, index) => {
-        event.id = myHostedEventIds[index];
-      });
-      setMyHostedEvents(res);
-    });
-    setIsLoading(false);
-  }, [myHostedEventIds]);
+        event.id = myHostedEventIds[index]
+      })
+      setMyHostedEvents(res)
+    })
+    setIsLoading(false)
+  }, [myHostedEventIds])
 
-  React.useEffect(() => {
-    setIsLoading(true);
-    const unsub = onSnapshot(doc(db, "users", user_id), (doc: any) => {
+  useEffect(() => {
+    setIsLoading(true)
+    const unsub = onSnapshot(doc(db, 'users', user_id), (doc: any) => {
       if (doc.data().hosted_events.length > 0) {
-        setMyHostedEventIds(doc.data().hosted_events);
+        setMyHostedEventIds(doc.data().hosted_events)
       } else {
-        setMyHostedEventIds([]);
+        setMyHostedEventIds([])
       }
-    });
-  }, [user_id]);
+    })
+  }, [user_id])
 
   if (isLoading) {
-    return <Text>Loading hosted events ...</Text>;
+    return <Text>Loading hosted events ...</Text>
   }
   if (myHostedEvents.length < 1) {
     return (
       <View>
         <Pressable
           onPress={() => {
-            setHostedIsCollapsed(hostedIsCollapsed === true ? false : true);
+            setHostedIsCollapsed(hostedIsCollapsed === true ? false : true)
           }}
         >
           <Text style={styles.eventHeader}>My Hosted Events</Text>
@@ -74,13 +77,13 @@ export const MyHostedEvents = ({user_id, navigation}) => {
           </Collapsible>
         </ScrollView>
       </View>
-    );
+    )
   }
   return (
     <View>
       <Pressable
         onPress={() => {
-          setHostedIsCollapsed(hostedIsCollapsed === true ? false : true);
+          setHostedIsCollapsed(hostedIsCollapsed === true ? false : true)
         }}
       >
         <Text style={styles.eventHeader}>My Hosted Events</Text>
@@ -93,7 +96,7 @@ export const MyHostedEvents = ({user_id, navigation}) => {
                 <TouchableOpacity
                   style={styles.item}
                   onPress={() => {
-                    navigation.navigate("Event", {eventId: myEvent.id});
+                    navigation.navigate('Event', { eventId: myEvent.id })
                   }}
                 >
                   <Text style={styles.title}>{myEvent.title}</Text>
@@ -109,43 +112,43 @@ export const MyHostedEvents = ({user_id, navigation}) => {
                   </Text>
                 </TouchableOpacity>
                 <Pressable
-                  style={({pressed}) => [
+                  style={({ pressed }) => [
                     {
                       backgroundColor: pressed
-                        ? "rgba(50, 59, 118, 0.5)"
-                        : "rgba(50, 59, 118, 1)",
+                        ? 'rgba(50, 59, 118, 0.5)'
+                        : 'rgba(50, 59, 118, 1)',
                     },
                     styles.requestsButton,
                   ]}
                   onPress={() => {
-                    navigation.navigate("AcceptReject", {
+                    navigation.navigate('AcceptReject', {
                       eventId: myEvent.id,
                       eventTitle: myEvent.title,
-                    });
+                    })
                   }}
                 >
                   <Text style={styles.buttonTitle}>Pending Requests</Text>
                 </Pressable>
                 <Pressable
-                  style={({pressed}) => [
+                  style={({ pressed }) => [
                     {
                       backgroundColor: pressed
-                        ? "rgba(108, 93, 171, 0.5)"
-                        : "rgba(108, 93, 171, 1)",
+                        ? 'rgba(108, 93, 171, 0.5)'
+                        : 'rgba(108, 93, 171, 1)',
                     },
                     styles.deleteButton,
                   ]}
                   onPress={() => {
-                    confirmDelete(myEvent.id, {navigation}, user_id, myEvent);
+                    confirmDelete(myEvent.id, { navigation }, user_id, myEvent)
                   }}
                 >
                   <Text style={styles.buttonTitle}>Delete Event</Text>
                 </Pressable>
               </View>
-            );
+            )
           })}
         </Collapsible>
       </ScrollView>
     </View>
-  );
-};
+  )
+}

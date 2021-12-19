@@ -1,72 +1,71 @@
-import {doc, onSnapshot} from "firebase/firestore";
-import React from "react";
-import {useState, useContext, useEffect} from "react";
-import {Text, Pressable, View, TouchableOpacity} from "react-native";
-import {UserContext} from "../../contexts/UserContext";
-import {db} from "../../utils/firestoreConfig";
-import {getUsers, selectAllEvents, selectEventById} from "../../utils/utils";
+import React, { useState, useContext, useEffect } from 'react'
+import { Text, Pressable, View, TouchableOpacity } from 'react-native'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { UserContext } from '../../contexts/UserContext'
+import { db } from '../../db/firestoreConfig'
+import { getUsers, selectEventById } from '../../db/api'
 import {
   makeNameIdReference,
   truncate,
-} from "../Events.screen/utils/EventListUtils";
-import {styles} from "./ProfileEvents.style";
-import {confirmLeave} from "./ProfileUtils";
+} from '../Events.screen/utils/EventListUtils'
+import { confirmLeave } from './ProfileUtils'
+import { styles } from './ProfileEvents.style'
 
-export const MyPendingRequests = ({user_id, navigation}) => {
-  const {currentUser} = useContext(UserContext);
-  const [isLoading, setIsLoading] = useState(true);
-  const [userNames, setUserNames] = useState({});
-  const [pendingRequestIds, setPendingRequestIds] = useState([]);
+export const MyPendingRequests = ({ user_id, navigation }) => {
+  const { currentUser } = useContext(UserContext)
+  const [isLoading, setIsLoading] = useState(true)
+  const [userNames, setUserNames] = useState({})
+  const [pendingRequestIds, setPendingRequestIds] = useState([])
   const [pendingRequests, setPendingRequests] = useState([
     {
-      title: "dummy",
-      host_id: "dummy",
-      location: "dummy",
-      date: "dummy",
-      category: "dummy",
-      time: "dummy",
-      description: "dummy",
+      title: '',
+      host_id: '',
+      location: '',
+      date: '',
+      category: '',
+      time: '',
+      description: '',
     },
-  ]);
+  ])
 
   useEffect(() => {
     const eventPromises: any = pendingRequestIds.map((eventId) => {
-      return selectEventById(eventId);
-    });
+      return selectEventById(eventId)
+    })
     Promise.all(eventPromises).then((res: any) => {
       res.forEach((event, index) => {
-        event.id = pendingRequestIds[index];
-      });
+        event.id = pendingRequestIds[index]
+      })
 
-      setPendingRequests(res);
-    });
-    setIsLoading(false);
-    (async () => {
-      const nameUidReferenceObject = await getUsers();
-      setUserNames(makeNameIdReference(nameUidReferenceObject));
-    })();
-  }, [pendingRequestIds]);
+      setPendingRequests(res)
+    })
+    setIsLoading(false)
+    ;(async () => {
+      const nameUidReferenceObject = await getUsers()
+      setUserNames(makeNameIdReference(nameUidReferenceObject))
+    })()
+  }, [pendingRequestIds])
 
   React.useEffect(() => {
-    setIsLoading(true);
-    const unsub = onSnapshot(doc(db, "users", user_id), (doc: any) => {
+    setIsLoading(true)
+    const unsub = onSnapshot(doc(db, 'users', user_id), (doc: any) => {
       if (doc.data().requested_events.length > 0) {
-        setPendingRequestIds(doc.data().requested_events);
+        setPendingRequestIds(doc.data().requested_events)
       } else {
-        setPendingRequestIds([]);
+        setPendingRequestIds([])
       }
-    });
-  }, [user_id]);
+    })
+  }, [user_id])
 
   if (isLoading) {
-    return <Text>Loading event requests ...</Text>;
+    return <Text>Loading event requests ...</Text>
   }
   if (pendingRequests.length < 1) {
     return (
       <Text style={styles.joinSubHeader}>
         You have no pending event requests.
       </Text>
-    );
+    )
   }
   return (
     <View>
@@ -77,7 +76,7 @@ export const MyPendingRequests = ({user_id, navigation}) => {
             <TouchableOpacity
               style={styles.item}
               onPress={() => {
-                navigation.navigate("Event", {eventId: myEvent.id});
+                navigation.navigate('Event', { eventId: myEvent.id })
               }}
             >
               <Text style={styles.title}>{myEvent.title}</Text>
@@ -91,11 +90,11 @@ export const MyPendingRequests = ({user_id, navigation}) => {
               </Text>
             </TouchableOpacity>
             <Pressable
-              style={({pressed}) => [
+              style={({ pressed }) => [
                 {
                   backgroundColor: pressed
-                    ? "rgba(108, 93, 171, 0.5)"
-                    : "rgba(108, 93, 171, 1)",
+                    ? 'rgba(108, 93, 171, 0.5)'
+                    : 'rgba(108, 93, 171, 1)',
                 },
                 styles.requestsButton,
               ]}
@@ -104,15 +103,15 @@ export const MyPendingRequests = ({user_id, navigation}) => {
                   first_name: currentUser.first_name,
                   last_name: currentUser.last_name,
                   userId: currentUser.id,
-                };
-                confirmLeave(userInfo, myEvent.id);
+                }
+                confirmLeave(userInfo, myEvent.id)
               }}
             >
               <Text style={styles.buttonTitle}>Cancel Request</Text>
             </Pressable>
           </View>
-        );
+        )
       })}
     </View>
-  );
-};
+  )
+}

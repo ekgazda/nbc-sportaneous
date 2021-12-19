@@ -1,14 +1,14 @@
-import {View, Text, Button, TextInput} from "react-native";
-import React, {useState} from "react";
-import {getAuth} from "firebase/auth";
-import {styles} from "./GetUserName.style";
-import {addNewUser} from "../../utils/utils";
+import { View, Text, Button, TextInput } from 'react-native'
+import React, { useState } from 'react'
+import { getAuth } from 'firebase/auth'
+import { styles } from './GetUserName.style'
+import { addNewUser } from '../../db/api'
 
-const auth = getAuth();
+const auth = getAuth()
 
-export const GetUserName = ({reload}: {reload: () => void}) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+export const GetUserName = ({ reload }: { reload: () => void }) => {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
 
   const user = {
     first_name: firstName,
@@ -16,16 +16,16 @@ export const GetUserName = ({reload}: {reload: () => void}) => {
     hosted_events: [],
     requested_events: [],
     accepted_events: [],
-    image_bitmap: "",
-  };
+    image_bitmap: '',
+  }
 
-  const isDisabled = firstName === "" || lastName === "";
+  const isDisabled = firstName === '' || lastName === ''
 
   const handlePress = () => {
     if (auth.currentUser) {
-      addNewUser(user, auth.currentUser.uid).then(reload);
+      addNewUser(user, auth.currentUser.uid).then(reload)
     }
-  };
+  }
 
   return (
     <View style={styles.container}>
@@ -49,5 +49,5 @@ export const GetUserName = ({reload}: {reload: () => void}) => {
         disabled={isDisabled}
       />
     </View>
-  );
-};
+  )
+}

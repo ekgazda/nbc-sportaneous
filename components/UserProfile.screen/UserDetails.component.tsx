@@ -1,13 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { UserContext } from '../../contexts/UserContext'
-import { SafeAreaView, Text, Pressable, View, Image } from 'react-native'
-import { styles } from './UserDetails.style'
-import { MyHostedEvents } from './MyHostedEvents.component'
-import { ScrollView } from 'react-native-gesture-handler'
-import { MyJoinedEvents } from './MyJoinedEvents.component'
+import { SafeAreaView, Text, Pressable, View, Image, ScrollView } from 'react-native'
 import { getDownloadURL, ref } from 'firebase/storage'
-import { db, storage } from '../../utils/firestoreConfig'
+import { db, storage } from '../../db/firestoreConfig'
 import { doc, onSnapshot } from '@firebase/firestore'
+import { UserContext } from '../../contexts/UserContext'
+import { MyHostedEvents } from './MyHostedEvents.component'
+import { MyJoinedEvents } from './MyJoinedEvents.component'
+import { styles } from './UserDetails.style'
+
 
 export const UserDetails = ({ navigation }) => {
   const { currentUser } = useContext(UserContext)
@@ -26,11 +26,8 @@ export const UserDetails = ({ navigation }) => {
         .then((res) => {
           setImgURL(res)
         })
-        .catch((err) => {
-          console.log(err)
-        })
     } catch (err) {
-      console.log(err)
+      err
     }
     const profileDisplayDetails = {
       first_name: currentUserObject.first_name,
@@ -40,7 +37,7 @@ export const UserDetails = ({ navigation }) => {
     setCurrentDetails(profileDisplayDetails)
   }, [imgURL, currentUserObject])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsLoading(true)
     const unsub = onSnapshot(doc(db, 'users', currentUser.id), (doc: any) => {
       setCurrentUserObject(doc.data())

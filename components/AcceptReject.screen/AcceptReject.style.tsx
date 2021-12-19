@@ -14,7 +14,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     borderColor: '#DADBDF',
     borderWidth: 1,
-    width: windowWidth / 1.05
+    width: windowWidth / 1.05,
   },
   title: {
     fontSize: 18,
@@ -71,11 +71,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-backButtonText: {
+  backButtonText: {
     textAlign: 'center',
     color: '#ffff',
     fontWeight: 'bold',
     fontSize: 12,
-    textTransform: "uppercase"
-  } 
+    textTransform: 'uppercase',
+  },
 })

@@ -13,11 +13,7 @@ import {
   FirebaseRecaptchaBanner,
   FirebaseAuthApplicationVerifier,
 } from 'expo-firebase-recaptcha'
-import {
-  getAuth,
-  PhoneAuthProvider,
-  signInWithCredential,
-} from 'firebase/auth'
+import { getAuth, PhoneAuthProvider, signInWithCredential } from 'firebase/auth'
 import { getApp } from 'firebase/app'
 import { styles } from './Auth.style'
 
@@ -31,7 +27,6 @@ if (!app?.options || Platform.OS === 'web') {
 }
 
 export const PhoneSignIn = () => {
-
   const recaptchaVerifier = useRef<FirebaseRecaptchaVerifierModal>(null)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [verificationId, setVerificationId] = useState('')
@@ -61,7 +56,7 @@ export const PhoneSignIn = () => {
         verificationCode
       )
       await signInWithCredential(auth, credential)
-      showMessage('Phone authentication successful' as SetStateAction<string>);
+      showMessage('Phone authentication successful' as SetStateAction<string>)
     } catch (err) {
       showMessage(`Error: ${err}` as SetStateAction<string>)
     }
@@ -75,7 +70,9 @@ export const PhoneSignIn = () => {
         attemptInvisibleVerification
       />
       <Text style={styles.hello}>Hello!</Text>
-      <Text style={styles.text}>To register, please enter your phone number</Text>
+      <Text style={styles.text}>
+        To register, please enter your phone number
+      </Text>
       <TextInput
         style={styles.inputField1}
         placeholder="+1 999 999 9999"
@@ -86,7 +83,7 @@ export const PhoneSignIn = () => {
         onChangeText={(phoneNumber) => setPhoneNumber(phoneNumber)}
       />
       <Button
-      color='whitesmoke'
+        color="whitesmoke"
         title="SEND VERIFICATION CODE"
         onPress={async () => sendUserPhoneDetails()}
       />
@@ -97,7 +94,7 @@ export const PhoneSignIn = () => {
         onChangeText={setVerificationCode}
       />
       <Button
-        color='whitesmoke'
+        color="whitesmoke"
         title="CONFIRM"
         disabled={!verificationId}
         onPress={async () => sendVerificationCode()}

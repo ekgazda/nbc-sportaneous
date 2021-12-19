@@ -1,12 +1,12 @@
-import {StyleSheet, Dimensions} from "react-native";
+import { StyleSheet, Dimensions } from 'react-native'
 
-const windowWidth = Dimensions.get("window").width;
+const windowWidth = Dimensions.get('window').width
 
 export const styles = StyleSheet.create({
   eventHeader: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 20,
-    alignSelf: "center",
+    alignSelf: 'center',
     marginTop: 10,
     marginBottom: 5,
     paddingTop: 5,
@@ -15,12 +15,12 @@ export const styles = StyleSheet.create({
     borderTopWidth: 2,
   },
   joinSubHeader: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 17,
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     marginTop: 10,
     paddingLeft: 15,
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
 
   container: {
@@ -28,43 +28,43 @@ export const styles = StyleSheet.create({
     marginVertical: 5,
   },
   item: {
-    backgroundColor: "#FFF",
+    backgroundColor: '#FFF',
     padding: 10,
     marginTop: 10,
     marginHorizontal: 16,
-    flexDirection: "row",
-    flexWrap: "wrap",
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     flex: 1,
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     borderLeftWidth: 2,
     borderTopWidth: 2,
     borderRightWidth: 2,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    borderColor: "#DADBDF",
+    borderColor: '#DADBDF',
   },
   title: {
     fontSize: 18,
-    fontWeight: "bold",
-    textTransform: "capitalize",
+    fontWeight: 'bold',
+    textTransform: 'capitalize',
     width: windowWidth / 3,
-    textAlign: "left",
+    textAlign: 'left',
     paddingBottom: 5,
   },
   location: {
-    textAlign: "left",
+    textAlign: 'left',
     fontSize: 17,
-    textTransform: "capitalize",
+    textTransform: 'capitalize',
     width: windowWidth / 3,
   },
   date: {
-    textAlign: "right",
+    textAlign: 'right',
     fontSize: 17,
-    textTransform: "capitalize",
+    textTransform: 'capitalize',
     width: windowWidth / 2,
   },
-  time: {textAlign: "right", fontSize: 18, width: windowWidth / 2},
-  user: {textAlign: "right", fontSize: 18, width: windowWidth / 3},
+  time: { textAlign: 'right', fontSize: 18, width: windowWidth / 2 },
+  user: { textAlign: 'right', fontSize: 18, width: windowWidth / 3 },
   description: {
     fontSize: 15,
     width: windowWidth,
@@ -72,33 +72,33 @@ export const styles = StyleSheet.create({
     marginLeft: 15,
   },
   category: {
-    textAlign: "left",
+    textAlign: 'left',
     fontSize: 16,
-    textTransform: "capitalize",
+    textTransform: 'capitalize',
     width: windowWidth / 3,
   },
 
   requestsButton: {
     borderWidth: 2,
-    borderColor: "#DADBDF",
+    borderColor: '#DADBDF',
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     padding: 5,
     width: windowWidth / 1.085,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   deleteButton: {
     borderWidth: 2,
-    borderColor: "#DADBDF",
+    borderColor: '#DADBDF',
     borderRadius: 8,
     padding: 5,
     marginTop: 5,
     width: windowWidth / 1.085,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   buttonTitle: {
-    textAlign: "center",
-    fontWeight: "bold",
-    color: "whitesmoke",
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'whitesmoke',
   },
-});
+})

@@ -1,5 +1,5 @@
-import React, {useState, useContext} from "react";
-import DateTimePicker from "@react-native-community/datetimepicker";
+import React, { useState, useContext } from 'react'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import {
   TextInput,
   SafeAreaView,
@@ -10,53 +10,53 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   KeyboardAvoidingView,
-} from "react-native";
+} from 'react-native'
 import {
   addNewEvent,
   addNewChatroom,
   addNewEventToCurrentUserProfile,
-} from "../../utils/utils";
-import {UserContext} from "../../contexts/UserContext";
-import {styles} from "./AddEvent.style";
+} from '../../db/api'
+import { UserContext } from '../../contexts/UserContext'
+import { styles } from './AddEvent.style'
 
 type AddEventProps = {
   navigation: {
-    navigate: (component: string, {}) => {};
-  };
-};
+    navigate: (component: string, {}) => {}
+  }
+}
 
-export const AddEvent = ({navigation}: AddEventProps) => {
-  const {currentUser} = useContext(UserContext);
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
-  const [description, setDescription] = useState("");
-  const [location, setLocation] = useState("");
-  const [maxCapacity, setMaxCapacity] = useState("");
-  const [date, setDate] = useState<Date>();
-  const [time, setTime] = useState<Date>();
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
+export const AddEvent = ({ navigation }: AddEventProps) => {
+  const { currentUser } = useContext(UserContext)
+  const [title, setTitle] = useState('')
+  const [category, setCategory] = useState('')
+  const [description, setDescription] = useState('')
+  const [location, setLocation] = useState('')
+  const [maxCapacity, setMaxCapacity] = useState('')
+  const [date, setDate] = useState<Date>()
+  const [time, setTime] = useState<Date>()
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false)
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false)
 
   const changeSelectedDate = (event: any, selectedDate: Date | undefined) => {
-    const currentDate = selectedDate || date;
-    setDatePickerVisibility(false);
-    setDate(currentDate);
-  };
+    const currentDate = selectedDate || date
+    setDatePickerVisibility(false)
+    setDate(currentDate)
+  }
   const changeSelectedTime = (event: any, selectedTime: Date | undefined) => {
-    const currentTime = selectedTime || time;
-    setTimePickerVisibility(false);
-    setTime(currentTime);
-  };
+    const currentTime = selectedTime || time
+    setTimePickerVisibility(false)
+    setTime(currentTime)
+  }
 
   const resetEventData = () => {
-    setTitle("");
-    setCategory("");
-    setDescription("");
-    setLocation("");
-    setMaxCapacity("");
-    setDate(undefined);
-    setTime(undefined);
-  };
+    setTitle('')
+    setCategory('')
+    setDescription('')
+    setLocation('')
+    setMaxCapacity('')
+    setDate(undefined)
+    setTime(undefined)
+  }
 
   const handlePress = async () => {
     const eventId = await addNewEvent({
@@ -70,15 +70,15 @@ export const AddEvent = ({navigation}: AddEventProps) => {
       host_id: currentUser.id,
       attendees: [],
       pending_attendees: [],
-    });
+    })
     addNewChatroom(
-      {host_id: currentUser.id, attendees_id: [], messages: []},
+      { host_id: currentUser.id, attendees_id: [], messages: [] },
       eventId
-    );
-    addNewEventToCurrentUserProfile(currentUser.id, eventId);
-    resetEventData();
-    navigation.navigate("Event", {eventId});
-  };
+    )
+    addNewEventToCurrentUserProfile(currentUser.id, eventId)
+    resetEventData()
+    navigation.navigate('Event', { eventId })
+  }
 
   const isDisabled = !(
     title &&
@@ -87,7 +87,7 @@ export const AddEvent = ({navigation}: AddEventProps) => {
     maxCapacity &&
     date &&
     time
-  );
+  )
 
   return (
     <SafeAreaView style={styles.container}>
@@ -132,7 +132,7 @@ export const AddEvent = ({navigation}: AddEventProps) => {
         <View style={styles.datetime}>
           <TouchableOpacity
             onPress={() => {
-              setDatePickerVisibility(true);
+              setDatePickerVisibility(true)
             }}
           >
             <Text style={styles.inputField}>
@@ -143,7 +143,7 @@ export const AddEvent = ({navigation}: AddEventProps) => {
         {isDatePickerVisible && (
           <DateTimePicker
             value={date || new Date()}
-            mode={"date"}
+            mode={'date'}
             display="default"
             onChange={changeSelectedDate}
           />
@@ -151,7 +151,7 @@ export const AddEvent = ({navigation}: AddEventProps) => {
         <View style={styles.datetime}>
           <TouchableOpacity
             onPress={() => {
-              setTimePickerVisibility(true);
+              setTimePickerVisibility(true)
             }}
           >
             <Text style={styles.inputField}>
@@ -162,7 +162,7 @@ export const AddEvent = ({navigation}: AddEventProps) => {
         {isTimePickerVisible && (
           <DateTimePicker
             value={time || new Date()}
-            mode={"time"}
+            mode={'time'}
             is24Hour={true}
             display="default"
             onChange={changeSelectedTime}
@@ -179,5 +179,5 @@ export const AddEvent = ({navigation}: AddEventProps) => {
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}

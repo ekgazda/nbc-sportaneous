@@ -1,22 +1,19 @@
-import { View, Text, Image } from "react-native";
-import { styles } from "./HostInfo.style";
-import React, { useEffect, useState } from "react";
-import { addEventProps } from "../../singleEvent.utils";
-import { getUserById } from "../../../../utils/utils";
+import React, { useEffect, useState } from 'react'
+import { View, Text, Image } from 'react-native'
+import { addEventProps } from '../../SingleEvent.utils'
+import { getUserById } from '../../../../db/api'
+import { styles } from './HostInfo.style'
 
 export const HostInfo = ({ hostDetails }: addEventProps) => {
-  const [imgURL, setImgURL] = useState("");
+  const [imgURL, setImgURL] = useState('')
   useEffect(() => {
-    if (hostDetails?.id !== "") {
+    if (hostDetails?.id !== '') {
       getUserById(hostDetails?.id)
         .then((userData: any) => {
-          setImgURL(userData?.image_bitmap);
+          setImgURL(userData?.image_bitmap)
         })
-        .catch((err) => {
-          console.log(err);
-        });
     }
-  }, [hostDetails]);
+  }, [hostDetails])
 
   return (
     <View style={styles.hostView}>
@@ -27,5 +24,5 @@ export const HostInfo = ({ hostDetails }: addEventProps) => {
       {imgURL ? <Image source={{ uri: imgURL }} /> : null}
       <Text style={styles.text}>{hostDetails?.description}</Text>
     </View>
-  );
-};
+  )
+}

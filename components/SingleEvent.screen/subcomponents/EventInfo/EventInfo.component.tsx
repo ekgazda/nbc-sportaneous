@@ -1,7 +1,7 @@
-import { styles } from "./EventInfo.style";
-import { Text, View } from "react-native";
-import React from "react";
-import { addEventProps } from "../../singleEvent.utils";
+import React from 'react'
+import { Text, View } from 'react-native'
+import { addEventProps } from '../../SingleEvent.utils'
+import { styles } from './EventInfo.style'
 
 export const EventInfo = ({ eventDetails }: addEventProps) => {
   return (
@@ -21,5 +21,5 @@ export const EventInfo = ({ eventDetails }: addEventProps) => {
         {eventDetails?.max_capacity}
       </Text>
     </View>
-  );
-};
+  )
+}

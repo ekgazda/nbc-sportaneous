@@ -1,8 +1,8 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   hostView: {
-    backgroundColor: "#FFF",
+    backgroundColor: '#FFF',
     flex: 3,
     padding: 10,
     borderRadius: 10,
@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 0,
     borderWidth: 1,
-    borderColor: "#DADBDF",
+    borderColor: '#DADBDF',
   },
   text: {
     fontSize: 18,
@@ -19,6 +19,6 @@ export const styles = StyleSheet.create({
   capitalizedText: {
     fontSize: 18,
     margin: 5,
-    textTransform: "capitalize",
+    textTransform: 'capitalize',
   },
-});
+})

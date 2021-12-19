@@ -1,8 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
-import React, { useContext } from "react";
-import { styles } from "./SingleEvent.style";
-import { UserContext } from "../../contexts/UserContext";
-import { getUserById, joinEvent, removeSelfFromEvent } from "../../utils/utils";
+import React, { useContext, useState, useEffect } from 'react'
+import { View, Text, TouchableOpacity } from 'react-native'
+import { doc, onSnapshot } from 'firebase/firestore'
+import { db } from '../../db/firestoreConfig'
+import { UserContext } from '../../contexts/UserContext'
+import { getUserById, joinEvent, removeSelfFromEvent } from '../../db/api'
 import {
   checkAcceptedOrRequested,
   deleteEventAndCascade,
@@ -11,57 +12,54 @@ import {
   eventDetails,
   checkCapacity,
   joinButtonText,
-} from "./singleEvent.utils";
-import { doc, onSnapshot } from "firebase/firestore";
-import { db } from "../../utils/firestoreConfig";
-import { EventInfo } from "./subcomponents/EventInfo/EventInfo.component";
-import { HostInfo } from "./subcomponents/HostInfo/HostInfo.component";
+} from './SingleEvent.utils'
+import { EventInfo } from './subcomponents/EventInfo/EventInfo.component'
+import { HostInfo } from './subcomponents/HostInfo/HostInfo.component'
+import { styles } from './SingleEvent.style'
 
 export const SingleEvent = ({ navigation, route }: addEventProps) => {
-  let { eventId } = route!.params;
-  const { currentUser } = useContext(UserContext);
+  let { eventId } = route!.params
+  const { currentUser } = useContext(UserContext)
 
-  const dummyDetails = {
+  const defaultDetails = {
     attendees: [],
-    category: "Dummy",
-    date: "Dummmy",
-    description: "Dummmy",
-    host_id: "Dummmy",
-    location: "Dummmy",
-    max_capacity: "4",
+    category: '',
+    date: '',
+    description: '',
+    host_id: '',
+    location: '',
+    max_capacity: '',
     pending_attendees: [],
-    title: "Dummmy",
-    time: "",
-  };
-  const [isLoading, setIsLoading] = React.useState<boolean>(true);
-  const [eventDetails, setEventDetails] =
-    React.useState<eventDetails>(dummyDetails);
-
-  const [hostDetails, setHostDetails] = React.useState<hostDetails>({
-    first_name: "",
-    last_name: "",
-    description: "",
-    image_bitmap: "",
-    id: "",
-  });
+    title: '',
+    time: '',
+  }
+  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [eventDetails, setEventDetails] = useState<eventDetails>(defaultDetails)
+  const [hostDetails, setHostDetails] = useState<hostDetails>({
+    first_name: '',
+    last_name: '',
+    description: '',
+    image_bitmap: '',
+    id: '',
+  })
 
   let acceptedOrRequested: boolean = checkAcceptedOrRequested(
     eventDetails,
     currentUser
-  );
+  )
 
-  React.useEffect(() => {
-    setIsLoading(true);
-    const unsub = onSnapshot(doc(db, "events", eventId), (doc: any) => {
+  useEffect(() => {
+    setIsLoading(true)
+    const unsub = onSnapshot(doc(db, 'events', eventId), (doc: any) => {
       if (doc.exists()) {
-        setEventDetails(doc.data());
+        setEventDetails(doc.data())
       } else {
-        setEventDetails(dummyDetails);
+        setEventDetails(defaultDetails)
       }
-    });
-  }, [eventId]);
+    })
+  }, [eventId])
 
-  React.useEffect(() => {
+  useEffect(() => {
     getUserById(eventDetails.host_id).then((user) => {
       if (user !== undefined) {
         setHostDetails({
@@ -70,20 +68,20 @@ export const SingleEvent = ({ navigation, route }: addEventProps) => {
           description: user.description,
           image_bitmap: user.image_bitmap,
           id: eventDetails.host_id,
-        });
+        })
       }
 
-      setIsLoading(false);
-    });
-  }, [eventDetails]);
+      setIsLoading(false)
+    })
+  }, [eventDetails])
 
   const userDetailsForEvent = {
     first_name: currentUser.first_name,
     last_name: currentUser.last_name,
     userId: currentUser.id,
-  };
+  }
   if (isLoading) {
-    return <View style={styles.view}></View>;
+    return <View style={styles.view}></View>
   } else if (eventDetails.host_id === currentUser.id) {
     return (
       <View style={styles.container}>
@@ -96,7 +94,7 @@ export const SingleEvent = ({ navigation, route }: addEventProps) => {
               { navigation },
               currentUser.id,
               eventDetails
-            );
+            )
           }}
         >
           <Text style={styles.touchOpacityText}>Delete event?</Text>
@@ -104,13 +102,13 @@ export const SingleEvent = ({ navigation, route }: addEventProps) => {
         <TouchableOpacity
           style={styles.touchOpacity}
           onPress={() => {
-            navigation!.navigate("AcceptReject", { eventId: eventId });
+            navigation!.navigate('AcceptReject', { eventId: eventId })
           }}
         >
           <Text style={styles.touchOpacityText}>Review attendees</Text>
         </TouchableOpacity>
       </View>
-    );
+    )
   } else
     return (
       <View style={styles.container}>
@@ -120,9 +118,9 @@ export const SingleEvent = ({ navigation, route }: addEventProps) => {
           style={styles.touchOpacity}
           onPress={() => {
             if (!acceptedOrRequested) {
-              joinEvent(userDetailsForEvent, eventId);
+              joinEvent(userDetailsForEvent, eventId)
             } else {
-              removeSelfFromEvent(userDetailsForEvent, eventId);
+              removeSelfFromEvent(userDetailsForEvent, eventId)
             }
           }}
         >
@@ -134,12 +132,12 @@ export const SingleEvent = ({ navigation, route }: addEventProps) => {
         <HostInfo hostDetails={hostDetails} />
         <TouchableOpacity
           onPress={() => {
-            navigation!.navigate("Events");
+            navigation!.navigate('Events')
           }}
           style={styles.touchOpacity}
         >
-          <Text style={styles.touchOpacityText}>Go back to events</Text>
+          <Text style={styles.touchOpacityText}>Back to events</Text>
         </TouchableOpacity>
       </View>
-    );
-};
+    )
+}

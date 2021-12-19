@@ -1,27 +1,31 @@
-import React, {useState} from "react";
-import {Text, View, Pressable} from "react-native";
-import {CheckBox} from "react-native-elements";
-import Collapsible from "react-native-collapsible";
-import {styles} from "./Filter.style";
-import {selectAllEvents} from "../../utils/utils";
-import {updateCheckBox, resetSelection, applyFilter} from "./utils/FilterUtils";
+import React, { useState } from 'react'
+import { Text, View, Pressable } from 'react-native'
+import { CheckBox } from 'react-native-elements'
+import Collapsible from 'react-native-collapsible'
+import { selectAllEvents } from '../../db/api'
+import {
+  updateCheckBox,
+  resetSelection,
+  applyFilter,
+} from './utils/FilterUtils'
+import { styles } from './Filter.style'
 
-const Filter = ({setEvents, categoryIsChecked, setCategoryIsChecked}) => {
-  const [isCollapsed, setIsCollapsed] = useState(true);
+const Filter = ({ setEvents, categoryIsChecked, setCategoryIsChecked }) => {
+  const [isCollapsed, setIsCollapsed] = useState(true)
 
   return (
     <View>
       <Pressable
-        style={({pressed}) => [
+        style={({ pressed }) => [
           {
             backgroundColor: pressed
-              ? "rgba(50, 59, 118, 0.5)"
-              : "rgba(50, 59, 118, 1)",
+              ? 'rgba(50, 59, 118, 0.5)'
+              : 'rgba(50, 59, 118, 1)',
           },
           styles.filterButton,
         ]}
         onPress={() => {
-          isCollapsed === true ? setIsCollapsed(false) : setIsCollapsed(true);
+          isCollapsed === true ? setIsCollapsed(false) : setIsCollapsed(true)
         }}
       >
         <Text style={styles.buttonTitle}>Filter</Text>
@@ -38,39 +42,39 @@ const Filter = ({setEvents, categoryIsChecked, setCategoryIsChecked}) => {
                 textStyle={styles.checkBoxText}
                 checked={categoryIsChecked[activity]}
                 onPress={() => {
-                  updateCheckBox(activity, setCategoryIsChecked);
+                  updateCheckBox(activity, setCategoryIsChecked)
                 }}
               ></CheckBox>
-            );
+            )
           })}
         </View>
         <View style={styles.lowerButtonContainer}>
           <Pressable
-            style={({pressed}) => [
+            style={({ pressed }) => [
               {
                 backgroundColor: pressed
-                  ? "rgba(108, 93, 171, 0.5)"
-                  : "rgba(108, 93, 171, 1)",
+                  ? 'rgba(108, 93, 171, 0.5)'
+                  : 'rgba(108, 93, 171, 1)',
               },
               styles.lowerButtonClear,
             ]}
             onPress={() => {
-              resetSelection(setCategoryIsChecked);
+              resetSelection(setCategoryIsChecked)
             }}
           >
             <Text style={styles.buttonTitle}>Clear Selection</Text>
           </Pressable>
           <Pressable
-            style={({pressed}) => [
+            style={({ pressed }) => [
               {
                 backgroundColor: pressed
-                  ? "rgba(50, 59, 118, 0.5)"
-                  : "rgba(50, 59, 118, 1)",
+                  ? 'rgba(50, 59, 118, 0.5)'
+                  : 'rgba(50, 59, 118, 1)',
               },
               styles.lowerButtonApply,
             ]}
             onPress={() => {
-              applyFilter(categoryIsChecked, selectAllEvents, setEvents);
+              applyFilter(categoryIsChecked, selectAllEvents, setEvents)
             }}
           >
             <Text style={styles.buttonTitle}>Apply Filters</Text>
@@ -78,7 +82,7 @@ const Filter = ({setEvents, categoryIsChecked, setCategoryIsChecked}) => {
         </View>
       </Collapsible>
     </View>
-  );
-};
+  )
+}
 
-export default Filter;
+export default Filter
