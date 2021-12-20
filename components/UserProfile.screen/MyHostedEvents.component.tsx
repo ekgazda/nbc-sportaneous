@@ -15,7 +15,7 @@ import { truncate } from '../Events.screen/utils/EventListUtils'
 import { confirmDelete } from './ProfileUtils'
 import { styles } from './ProfileEvents.style'
 
-export const MyHostedEvents = ({ user_id, navigation }) => {
+export const MyHostedEvents = ({ navigation }) => {
   const { currentUser } = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(true)
   const [hostedIsCollapsed, setHostedIsCollapsed] = useState(false)
@@ -33,10 +33,10 @@ export const MyHostedEvents = ({ user_id, navigation }) => {
   ])
 
   useEffect(() => {
-    const eventPromises: any = myHostedEventIds.map((eventId) => {
+    const eventPromises = myHostedEventIds.map((eventId) => {
       return selectEventById(eventId)
     })
-    Promise.all(eventPromises).then((res: any) => {
+    Promise.all(eventPromises).then((res) => {
       res.forEach((event, index) => {
         event.id = myHostedEventIds[index]
       })
@@ -47,14 +47,14 @@ export const MyHostedEvents = ({ user_id, navigation }) => {
 
   useEffect(() => {
     setIsLoading(true)
-    const unsub = onSnapshot(doc(db, 'users', user_id), (doc: any) => {
+    const unsub = onSnapshot(doc(db, 'users', currentUser.id), (doc) => {
       if (doc.data().hosted_events.length > 0) {
         setMyHostedEventIds(doc.data().hosted_events)
       } else {
         setMyHostedEventIds([])
       }
     })
-  }, [user_id])
+  }, [currentUser.id])
 
   if (isLoading) {
     return <Text>Loading hosted events ...</Text>
@@ -139,7 +139,7 @@ export const MyHostedEvents = ({ user_id, navigation }) => {
                     styles.deleteButton,
                   ]}
                   onPress={() => {
-                    confirmDelete(myEvent.id, { navigation }, user_id, myEvent)
+                    confirmDelete(myEvent.id, { navigation }, currentUser.id, myEvent)
                   }}
                 >
                   <Text style={styles.buttonTitle}>Delete Event</Text>

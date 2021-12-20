@@ -4,8 +4,8 @@ export type Event = {
   description: string
   location: string
   max_capacity: string
-  date: string
-  time: string
+  date: string | undefined
+  time: string | undefined
   host_id: string
   attendees: []
   pending_attendees: []

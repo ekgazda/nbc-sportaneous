@@ -8,7 +8,7 @@ import { makeNameIdReference, truncate } from '../Events.screen/utils/EventListU
 import { confirmLeave } from './ProfileUtils'
 import { styles } from './ProfileEvents.style'
 
-export const MyAcceptedRequests = ({ user_id, navigation }) => {
+export const MyAcceptedRequests = ({ navigation }) => {
   const { currentUser } = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(true)
   const [userNames, setUserNames] = useState({})
@@ -45,14 +45,14 @@ export const MyAcceptedRequests = ({ user_id, navigation }) => {
 
   useEffect(() => {
     setIsLoading(true)
-    const unsub = onSnapshot(doc(db, 'users', user_id), (doc: any) => {
+    const unsub = onSnapshot(doc(db, 'users', currentUser.id), (doc: any) => {
       if (doc.data().accepted_events.length > 0) {
         setAcceptedRequestIds(doc.data().accepted_events)
       } else {
         setAcceptedRequestIds([])
       }
     })
-  }, [user_id])
+  }, [currentUser.id])
 
   if (isLoading) {
     return <Text>Loading joined events ...</Text>

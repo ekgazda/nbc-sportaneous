@@ -16,7 +16,7 @@ import { UserContext } from '../../contexts/UserContext'
 import { styles } from './Chat.style'
 
 export const Chat = ({ route, navigation }) => {
-  const { chat_id, eventName } = route.params
+  const { chatId, eventName } = route.params
   const { currentUser } = useContext(UserContext)
   const [selectedId, setSelectedId] = useState(null)
   const [messages, setMessages] = useState([])
@@ -25,7 +25,7 @@ export const Chat = ({ route, navigation }) => {
 
   useEffect(() => {
     setMessages([])
-    const unsub = onSnapshot(doc(db, 'chats', chat_id), (doc) => {
+    const unsub = onSnapshot(doc(db, 'chats', chatId), (doc) => {
       if (doc.data().messages.length > 0) {
         setIsMessagesEmpty(false)
         setMessages(doc.data().messages)
@@ -33,7 +33,7 @@ export const Chat = ({ route, navigation }) => {
         setIsMessagesEmpty(true)
       }
     })
-  }, [chat_id])
+  }, [chatId])
   const formatTimestamp = (timestamp) => {
     let date = new Date(timestamp * 1000)
     let datevalues = {
@@ -72,7 +72,7 @@ export const Chat = ({ route, navigation }) => {
                 message_body: item.message_body,
                 timestamp: item.timestamp,
               },
-              chat_id
+              chatId
             )
           }}
         >
@@ -135,7 +135,7 @@ export const Chat = ({ route, navigation }) => {
                     message_body: text,
                     timestamp: new Date(),
                   },
-                  chat_id
+                  chatId
                 ).then(() => {
                   setText('')
                 })

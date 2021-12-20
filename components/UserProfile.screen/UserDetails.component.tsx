@@ -75,8 +75,8 @@ export const UserDetails = ({ navigation }) => {
             <Text style={styles.buttonTitle}>Edit Details</Text>
           </Pressable>
         </View>
-        <MyHostedEvents user_id={currentUser.id} navigation={navigation} />
-        <MyJoinedEvents user_id={currentUser.id} navigation={navigation} />
+        <MyHostedEvents navigation={navigation} />
+        <MyJoinedEvents navigation={navigation} />
       </ScrollView>
     </SafeAreaView>
   )

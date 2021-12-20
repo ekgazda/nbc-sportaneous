@@ -1,35 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import { FlatList, SafeAreaView, Text, TouchableOpacity } from 'react-native'
-import Filter from './Filter.component'
+import { Filter } from './Filter.component'
 import { getUsers, selectAllEvents } from '../../db/api'
 import { makeNameIdReference, truncate } from './utils/EventListUtils'
 import { RefreshEvents } from './RefreshEvents.component'
-import EventCategories from './utils/EventCategories.json'
+import { Event, EventNavProps } from '../../types/events'
 import styles from './EventList.style'
 
-const EventList = ({ navigation }) => {
-  interface categoryIsChecked {
-    [category: string]: boolean
-  }
-  const [categoryIsChecked, setCategoryIsChecked] =
-    useState<categoryIsChecked>(EventCategories)
+const EventList = ({ navigation }: EventNavProps) => {
+  const [categoryIsChecked, setCategoryIsChecked] = useState({
+    'outdoors': false,
+    'water sports': false,
+    'extreme': false,
+    'team sports': false,
+    'winter sports': false,
+    'indoors': false,
+  })
   const [isLoading, setIsLoading] = useState(true)
   const [selectedId, setSelectedId] = useState(null)
   const [userNames, setUserNames] = useState({})
-  const [events, setEvents] = React.useState([
-    {
-      attendees: 'dummy',
-      category: 'dummy',
-      chat_id: 'dummy',
-      date: 'dummy',
-      description: 'dummy',
-      host_id: 0,
-      location: 'dummy',
-      max_capacity: 'dummy',
-      pending_attendee: { 0: 'dummy' },
-      title: 'dummy',
-    },
-  ])
+  const [events, setEvents] = useState<Event>()
 
   useEffect(() => {
     selectAllEvents().then((res) => {

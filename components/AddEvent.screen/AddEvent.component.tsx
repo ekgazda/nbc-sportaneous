@@ -17,15 +17,11 @@ import {
   addNewEventToCurrentUserProfile,
 } from '../../db/api'
 import { UserContext } from '../../contexts/UserContext'
+import { EventNavProps } from '../../types/events'
 import { styles } from './AddEvent.style'
 
-type AddEventProps = {
-  navigation: {
-    navigate: (component: string, {}) => {}
-  }
-}
 
-export const AddEvent = ({ navigation }: AddEventProps) => {
+export const AddEvent = ({ navigation }: EventNavProps) => {
   const { currentUser } = useContext(UserContext)
   const [title, setTitle] = useState('')
   const [category, setCategory] = useState('')

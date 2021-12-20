@@ -9,9 +9,10 @@ import {
   truncate,
 } from '../Events.screen/utils/EventListUtils'
 import { confirmLeave } from './ProfileUtils'
+import { EventNavProps } from '../../types/events'
 import { styles } from './ProfileEvents.style'
 
-export const MyPendingRequests = ({ user_id, navigation }) => {
+export const MyPendingRequests = ({ navigation }: EventNavProps) => {
   const { currentUser } = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(true)
   const [userNames, setUserNames] = useState({})
@@ -29,14 +30,13 @@ export const MyPendingRequests = ({ user_id, navigation }) => {
   ])
 
   useEffect(() => {
-    const eventPromises: any = pendingRequestIds.map((eventId) => {
+    const eventPromises = pendingRequestIds.map((eventId) => {
       return selectEventById(eventId)
     })
-    Promise.all(eventPromises).then((res: any) => {
+    Promise.all(eventPromises).then((res) => {
       res.forEach((event, index) => {
-        event.id = pendingRequestIds[index]
+        return {...event, id: pendingRequestIds[index]}
       })
-
       setPendingRequests(res)
     })
     setIsLoading(false)
@@ -46,16 +46,16 @@ export const MyPendingRequests = ({ user_id, navigation }) => {
     })()
   }, [pendingRequestIds])
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsLoading(true)
-    const unsub = onSnapshot(doc(db, 'users', user_id), (doc: any) => {
+    const unsub = onSnapshot(doc(db, 'users', currentUser.id), (doc: any) => {
       if (doc.data().requested_events.length > 0) {
         setPendingRequestIds(doc.data().requested_events)
       } else {
         setPendingRequestIds([])
       }
     })
-  }, [user_id])
+  }, [currentUser.id])
 
   if (isLoading) {
     return <Text>Loading event requests ...</Text>

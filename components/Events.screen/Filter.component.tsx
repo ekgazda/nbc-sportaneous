@@ -10,7 +10,7 @@ import {
 } from './utils/FilterUtils'
 import { styles } from './Filter.style'
 
-const Filter = ({ setEvents, categoryIsChecked, setCategoryIsChecked }) => {
+export const Filter = ({ setEvents, categoryIsChecked, setCategoryIsChecked }) => {
   const [isCollapsed, setIsCollapsed] = useState(true)
 
   return (
@@ -84,5 +84,3 @@ const Filter = ({ setEvents, categoryIsChecked, setCategoryIsChecked }) => {
     </View>
   )
 }
-
-export default Filter

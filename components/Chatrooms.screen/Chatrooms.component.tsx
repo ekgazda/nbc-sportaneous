@@ -58,7 +58,7 @@ const Chatroom = ({ navigation }) => {
         item={item}
         onPress={() => {
           navigation.navigate('Chat', {
-            chat_id: item.id,
+            chatId: item.id,
             eventName: item.title,
           })
         }}
