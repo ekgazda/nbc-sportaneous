@@ -29,6 +29,24 @@ export type EventNavProps = {
   navigation: {
     navigate: (component: string, {}) => {}
   }
+  route?: {
+    params: { eventId: string }
+  }
+  currentUser?: string
+  eventDetails?: Event
+}
+
+export type HostDetails = {
+  first_name: string
+  last_name: string
+  description: string
+  image_bitmap: string
+}
+
+export type UserDetails = {
+  first_name: string
+  last_name: string
+  userId: string
 }
 
 export type categoryIsChecked = {
