@@ -13,7 +13,7 @@ import {
   setDoc,
 } from 'firebase/firestore'
 import { db } from './firestoreConfig'
-import { Event, EventWithId } from '../types/events'
+import { Event, EventWithId, UserDetails } from '../types/events'
 import { User } from '../types/users'
 import { Chatroom, ChatMessage } from '../types/chats'
 
@@ -102,7 +102,7 @@ export const deleteChatMessage = (chatMessage: ChatMessage, chatId: string) => {
   })
 }
 
-export const joinEvent = (userDetails: any, eventId: string) => {
+export const joinEvent = (userDetails: UserDetails, eventId: string) => {
   return updateDoc(doc(db, 'events', eventId), {
     pending_attendees: arrayUnion(userDetails),
   }).then(() => {
@@ -112,7 +112,7 @@ export const joinEvent = (userDetails: any, eventId: string) => {
   })
 }
 
-export const addAttendee = (eventId: string, userDetails: any) => {
+export const addAttendee = (eventId: string, userDetails: UserDetails) => {
   return updateDoc(doc(db, 'events', eventId), {
     attendees: arrayUnion(userDetails),
     pending_attendees: arrayRemove(userDetails),
@@ -124,13 +124,13 @@ export const addAttendee = (eventId: string, userDetails: any) => {
   })
 }
 
-export const removeAttendee = (eventId: string, userDetails: any) => {
+export const removeAttendee = (eventId: string, userDetails: UserDetails) => {
   return updateDoc(doc(db, 'events', eventId), {
     attendees: arrayRemove(userDetails),
   })
 }
 
-export const removeSelfFromEvent = (userDetails: any, eventId: string) => {
+export const removeSelfFromEvent = (userDetails: UserDetails, eventId: string) => {
   return updateDoc(doc(db, 'events', eventId), {
     pending_attendees: arrayRemove(userDetails),
     attendees: arrayRemove(userDetails),
