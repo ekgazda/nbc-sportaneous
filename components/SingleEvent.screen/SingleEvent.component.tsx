@@ -43,7 +43,6 @@ export const SingleEvent = ({ navigation, route }: EventNavProps) => {
 
   const checkAcceptedOrRequested = eventDetails?.attendees.includes(currentUser.id) && 
     eventDetails?.pending_attendees.map(userId => userId === currentUser.id) ? true : false
-    console.log(checkAcceptedOrRequested, 'ggg')
 
   const checkCapacity =
     eventDetails?.attendees.length >= parseInt(eventDetails?.max_capacity) &&
@@ -54,7 +53,6 @@ export const SingleEvent = ({ navigation, route }: EventNavProps) => {
     if (checkAcceptedOrRequested) return 'Leave event?'
     return 'Request to join'
   }
-  console.log(joinButtonText)
 
   const eventInfo = (
     <View style={styles.container}>
